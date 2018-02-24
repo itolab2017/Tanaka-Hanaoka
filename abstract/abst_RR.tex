@@ -1,0 +1,170 @@
+\documentclass[twocolumn,11pt]{abst}
+\usepackage{float}
+
+
+
+% タイトル
+\title{ロボコンで使用するモータの試験機の開発}
+
+\author{花岡照之祐$\cdot$田中翔也(指導教員\,伊藤恒平$\cdot$林道大)}
+
+%\urlstyle{rm}
+
+\setcounter{page}{1}
+\lhead{}
+\chead{}
+\rhead{{\sf 17・201}\\{\bf 機械工学科}}
+\lfoot{}
+\cfoot{{\sf-\ M-0\thepage \ -}}
+%\rfoot{}
+\renewcommand{\headrulewidth}{3pt}
+%\renewcommand{\footrulewidth}{1pt}
+
+
+
+\begin{document}
+%\layout
+\maketitle
+\thispagestyle{fancy}
+\pagestyle{fancy}
+
+\setlength{\baselineskip}{5.6truemm}
+\kanjiskip=.07zw plus 3pt minus 3pt
+\xkanjiskip=.07zw plus 3pt minus 3pt
+
+
+% 本文
+
+\section{はじめに}
+
+	\subsection{研究の背景}
+	\,今年のロボコン研究室の目標は地区大会優勝と全国大会出場だったが,地区大会初戦敗退という結果に終わった.
+	敗退の原因は駆動部の動作不良であった.
+	駆動部のモータに関連した動作不良は練習中にも頻繁に発生し,その都度,駆動部を分解し原因を究明,駆動部を組み立て直す手間が発生した.
+	実際のロボットを用いた試運転前に,モータ単体で十分な試運転ができれば,駆動部の不具合発見や,分解・組立に必要な時間の大幅な短縮が期待できる.
+	
+	
+	\subsection{研究の目的}
+	\,モータをロボットに取り付け,動作させることなく,ロボット動作時の負荷状態を再現できるモータ試験機を開発することを目的とする.
+	
+	
+\section{試験機の構成}
+\,ロボコン用モータ試験機には,慣性力と摩擦力を発生させることが出来るモジュールと,
+その時のモータトルクを計測するモジュールが求められる.
+これらをできるだけ費用を掛けず,作りやすく,部品の交換もしやすい構造で配置する.
+
+
+\section{各モジュール}
+\,試験機に必要な要素は,トルク計測要素,
+ロボットの慣性モーメントを再現するフライホイール要素,
+ロボットの各部の摩擦や様々な抵抗による負荷を再現するブレーキ要素,
+この三つである.
+これらの要素を,試験の対象とするモータの出力軸上に配置する.
+試験機の構成のポンチ絵を図\ref{fig:全体案.png}に示す.
+
+\begin{figure}[htbp]
+	\begin{center}
+	\centering
+		\includegraphics[width=70mm]{img/all2.png}
+	\end{center}
+	\caption{試験機の構成のポンチ絵}
+	\label{fig:全体案.png}
+\end{figure}
+
+
+	\subsection{フライホイールモジュール}
+	\,フライホイールモジュールはロボットの慣性モーメントを再現するものである.
+	円盤状の錘を用い,1組あたりの慣性モーメントは約0.2kgm$^{2}$である.
+	質量15kgのロボットを2台のモータで駆動したとき,1台のモータが負担する慣性モーメントに相当する.
+	このおもりの数量を変えることで慣性モーメントを調整する.
+	フライホイールの錘は円盤状ではなく半円状とし,交換を容易とした.
+	フライホイールモジュールのポンチ絵を図\ref{fig:フライホイール.png}に示す.
+	またフライホイールモジュールの組立図を図\ref{fig:フライホイールモジュール組立図.png}に示す.
+	
+	\begin{figure}[htbp]
+  			\begin{center}
+  				\centering
+				\includegraphics[width=70mm]{img/flypont.png}
+			\end{center}
+			\caption{フライホイールモジュールポンチ絵}
+		\label{fig:フライホイール.png}
+	\end{figure}
+	
+	\begin{figure}[htbp]
+  			\begin{center}
+  				\centering
+				\includegraphics[width=70mm]{img/fly.png}
+			\end{center}
+			\caption{フライホイールモジュール組立図}
+		\label{fig:フライホイールモジュール組立図.png}
+	\end{figure}
+	
+	
+	\subsection{ブレーキモジュール}
+	\,ブレーキモジュールはロボット各部の摩擦や,さまざまな抵抗になる負荷を再現する.
+	既存のブレーキの中で構造が簡単で作りやすい単ブロックブレーキ機構を採用した.
+	荷重は錘を用いる事とし,
+	錘の荷重はブレーキアームの長さやブレーキシューの材質などを考慮し44.1Nとした.
+	そのほかにブレーキアームのたわみや押し付け力などを検討し,各部寸法を決定した.
+	ブレーキモジュールのポンチ絵を図\ref{fig:ブレーキ.png}に示す.
+	またブレーキモジュールの組立図を図\ref{fig:ブレーキモジュール組立図.png}に示す.
+	
+	\begin{figure}[htbp]
+		\begin{center}
+			\centering
+				\includegraphics[width=70mm]{img/brkpontki.png}
+				
+			\end{center}
+			\caption{ブレーキモジュールポンチ絵}
+		\label{fig:ブレーキ.png}
+	\end{figure}
+	
+	\begin{figure}[htbp]
+		\begin{center}
+			\centering
+				\includegraphics[width=70mm]{img/brk.png}
+			\end{center}
+			\caption{ブレーキモジュール組立図}
+		\label{fig:ブレーキモジュール組立図.png}
+	\end{figure}
+	
+	\subsection{トルク計測モジュール}
+	\,トルク計測モジュールは,回転する軸に複雑な加工を行わず,検出器を配置しやすい二点間ロータリーエンコーダを採用した.
+	トルク計測モジュールのポンチ絵を図\ref{fig:トルク計測モジュールポンチ絵.png}に示す.
+	回転する軸に一定の間隔で配置した2つのスリットをそれぞれ検出器で読み取り,その位相差から軸のねじれ角を求め,さらにねじれ角よりトルクを算出する.
+	軸をアルミニウムの中実丸棒とし,必要なねじり角より軸径を求める.
+	スリット間の距離を100mm,必要なねじり角を1度とした時,軸径は7.8mmである.
+	この値よりトルク計測モジュールの各寸法を決定した.
+	
+		\begin{figure}[htbp]
+		\begin{center}
+			\centering
+				\includegraphics[width=70mm]{img/torkki.png}
+			\end{center}
+			\caption{トルク計測モジュールポンチ絵}
+		\label{fig:トルク計測モジュールポンチ絵.png}
+	\end{figure}
+	
+\section{結果}
+\,各モジュールは構造が単純で部品点数が少なくなるよう設計した.
+モータマウントは製作するロボットによって使うモータが違い,
+固定するネジ穴の位置も違うため様々なモータが使用できるユニバーサルモータマウントを設計した.
+トルク計測モジュールは二点間ロータリーエンコーダ,
+ブレーキモジュールの機構は単ブロックブレーキ,
+フライホイールモジュールは半円状の錘を使用することに決定した.
+これらのモジュールを有する,モータ試験機の設計及び組み立て図の作成まで行った.
+
+\section{今後の課題}
+これらの組立図,部品図を元に実際に製作し動作を確認する必要がある.
+
+
+\begin{thebibliography}{9}
+	\bibitem{key1} 初めてのロボット創造設計　米田完　坪内考司　大隅久　講談社　2001年9月20日　「せん断応力」ｐ58「慣性モーメント」p152 「ブロックブレーキ」p214「摩擦係数」ｐ213
+
+	\bibitem{key2} 新機械設計　塚田忠男・舟橋宏明・野口昭治　実教出版株式会社　2012年(1)　p.85-86
+
+	\bibitem{key3} 計測工学入門　中村邦雄　森北出版株式会社　1994年4月8日　「プロニーブレーキ」p.67
+
+\end{thebibliography}
+
+\end{document}

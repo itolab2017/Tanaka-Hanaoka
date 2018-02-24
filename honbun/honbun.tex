@@ -1,0 +1,600 @@
+
+
+\documentclass[12pt,oneside]{paper}
+
+\usepackage{float}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{multicol}
+\newcommand{\itab}[1]{\hspace{0em}\rlap{#1}}
+\newcommand{\tab}[1]{\hspace{.2\textwidth}\rlap{#1}}
+
+% タイトル
+\title{モータ試験機の開発}
+\author{田中翔也　花岡照之祐}
+
+\begin{document}
+
+% 行間
+\setlength{\baselineskip}{9truemm}
+
+%文字間
+\kanjiskip=.53zw plus 3pt minus 3pt
+\xkanjiskip=.53zw plus 3pt minus 3pt
+
+% 目次
+\tableofcontents
+
+
+\chapter{はじめに}
+
+	\section{研究の背景}
+	今年のロボコン研究室の目標は地区大会優勝と全国大会出場だったが,
+	地区大会初戦敗退という結果に終わった.
+	敗退の原因はロボットが試合中原因不明で停止したためである.
+	試合後,動作を確認したが正常に動作した.
+	そのため試合中に制御系にトラブルが発生し制御が出来なくなったと考えた.
+	原因不明ではあるがトラブルの発生個所は制御系であることは間違いない.
+	これは制御系試験の時間をもっと取れていれば同じトラブルが発生し,修正が出来た可能性がある.
+	この時間を取る為にはロボットの完成を待たずに制御系の試験をする必要がある.
+	
+	
+	
+	\section{研究の目的}
+	モータをロボットに取り付け,動作させることなく,
+	ロボット動作時の負荷状態を再現できるモータ試験機を開発することを目的とする.
+	
+	
+	\section{論文の構成}%どこで何について述べるか
+	第2章ではモータ試験機に必要な機能と要求機能.
+	第3章では各モジュールの設計について述べる.
+	なお,組図と部品図は付録とする.
+	
+	
+\chapter{モータ試験機の設計}
+	\section{モータ試験機に必要な機能}
+	モータ試験機に要求される性能はロボットが移動するときにモータに掛かる負荷の
+	慣性モーメントと各部位の摩擦や抵抗を再現できる事である.
+	その為モータ試験機には,
+	慣性力と摩擦力を再現する事が出来るモジュールと,
+	その時のモータトルクを計測するモジュールが求められる.
+	これらをできるだけ費用を掛けず,
+	作りやすく,部品の交換もしやすい構造で配置する.
+	必要と考えた要素を以下に示す.
+	
+	\begin{itemize}
+	\item トルク計測要素
+	\item ロボットの慣性モーメントを再現する要素
+	\item 各部の摩擦や様々な抵抗による負荷を再現するブレーキ要素
+	\end{itemize}
+	
+	\section{開発するモータ試験機の要求機能}
+	開発するモータ試験機に要求される機能はトルク計測モジュール,ブレーキモジュール,慣性モーメントモジュールの3つである.
+	モジュールの配置は余分な摩擦や損失を出さないためモータの出力軸上に配置する.
+	配置の順はモータ側からトルク計測モジュール,ブレーキモジュール,
+	慣性モーメントモジュールとする.
+	モータ試験機は各モジュールごとに分け,
+	負荷の変更,点検をしやすいようにする.
+	また,架台にボルトとナットを用いて固定し,
+	着脱をしやすいようにする.
+	各軸同士の接続に使用するカップリングと軸を保持するベアリングは全て同じ物を用い,
+	その他にモジュールに使用する部材もできるだけ研究室にある物を使い注文する点数を少なくする.
+	各モジュールの設置位置のポンチ絵を図\ref{allpt}に示す.
+	
+	
+	
+	\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=12cm]{img/allpt.png}
+	\caption{全体図ポンチ絵}
+	\label{allpt}
+	\end{figure}
+	
+	
+	\section{開発するモータ試験機の要求性能}%同性能を描くか
+	開発するモータ試験機の要求性能はロボットに使用するモータの試験が可能であり,掛かる負荷や慣性モーメントの値を変更可能,
+	且つ様々な状況の試験ができる事が求められる.
+	
+	
+\chapter{各モジュールの設計}
+	
+	\section{全体}
+	各モジュールの位置を示した全体像を図\ref{all}に示す.
+	
+	
+	\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=12cm]{img/all.png}
+	\caption{全体図}
+	\label{all}
+	\end{figure}
+	
+	
+	\section{架台}
+		\subsection{要求性能}
+		架台は持ち運びやモジュールの換装等をやりやすいようにする.
+		また,試験中に各モジュールをしっかりと固定し,試験結果に誤差が出ないようにする.
+		\subsection{設計}
+		架台は全てのモジュールを固定しなければならないため強度が必要である.
+		そのため設計は20$\times$40mmのアルミ角管を組み合わせて制作する.
+		固定にはL字金具とボルトを使用する.
+		外形寸法を記入した図を図\ref{ddis}に示す.
+		また,CADデータで作成した図を図\ref{ddi3}に示す.
+		
+		\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=12cm]{img/ddis.png}
+		\caption{架台外形寸法}
+		\label{ddis}
+		\end{figure}
+		
+		
+		\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=12cm]{img/ddi3.png}
+		\caption{架台CADデータ}
+		\label{ddi3}
+		\end{figure}
+		
+		
+	\section{モータマウントモジュール}
+		\subsection{要求性能}
+		使用するモータはその年の課題によって変わる.
+		そのためモータマウントは様々なモータを固定する必要がある.
+		
+		\subsection{設計}
+		様々な大きさのモータに適応できるモータマウントを設計した.
+		様々なものに適応できる意味のユニバーサルを用い以降ではユニバーサルモータマウントと表記する.
+		ユニバーサルモータマウントのポンチ絵を図\ref{ymt}に示す.
+		モータを固定するねじ穴の数は4つと6つの場合が多い.
+		そのため二種類のモータマウントを制作する.
+		構造は簡単で中心に軸用の穴,その穴を中心に放射状に溝が広がっている.
+		我々の仕様する範囲のモータでは固定にM3の溝が多くもいられているため溝の幅は3.2mmとした.
+		
+		
+		\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=12cm]{img/ymt.png}
+		\caption{ユニバーサルモータマウント図ポンチ絵}
+		\label{ymt}
+		\end{figure}
+		
+		モータマウントの3Dデータを図\ref{4},図\ref{6}に示す.
+		大まかな寸法は図\ref{4sp},図\ref{6sp}のようになった.
+		固定できるモータの最大直径は70mmである.
+		
+		\begin{figure}[H]
+		\centering
+		\includegraphics[width=9cm]{img/4.png}
+		\caption{4つ穴モータマウント}
+		\label{4}
+		\end{figure}
+		
+		
+		\begin{figure}[H]
+		\centering
+		\includegraphics[width=9cm]{img/6.png}
+		\caption{6つ穴モータマウント}
+		\label{6}
+		\end{figure}
+		
+		\begin{figure}[H]
+		\centering
+		\includegraphics[width=10cm]{img/4sp.png}
+		\caption{モータマウント(4つ穴)}
+		\label{4sp}
+		\end{figure}
+		
+		
+		\begin{figure}[H]
+		\centering
+		\includegraphics[width=10cm]{img/6sp.png}
+		\caption{モータマウント(6つ穴)}
+		\label{6sp}
+		\end{figure}
+		
+		
+		
+		
+		
+		
+	\section{トルク計測モジュール}
+		\subsection{要求性能}
+		トルク計測モジュールでは試験するモータに負荷をかけたときのトルクを計測する.
+		トルク計測モジュールには二点間ロータリーエンコーダを採用した.
+		この機構は回転する軸に複雑な加工を行わず,検出器を配置しやすいため採用した.
+		二点間ロータリーエンコーダのポンチ絵を図\ref{trkgnr}に示す.
+		この機構は回転する軸に一定の間隔で配置した2つのスリットを,それぞれ検出器で位相差を読み取り
+		その位相差から軸のねじり角を求め,トルクを計測する.
+		
+		\begin{figure}[H]
+		\centering
+		\includegraphics[width=11cm]{img/trk-gnr.png}
+		\caption{二点間ロータリーエンコーダポンチ絵}
+		\label{trkgnr}
+		\end{figure}
+		
+		\subsection{設計}
+		回転軸はアルミニウムの中実丸棒を使用する.
+		モータの最大トルク$Tmax$[Nmm]のとき,1$deg$ねじれる軸を設計する事を目的とする.
+		1$deg$は弧度法に変換すると次のようになる.
+		
+		\begin{eqnarray}
+		1[deg]=0.017453[rad]
+		\end{eqnarray}
+		
+		軸の横弾性係数$G$[GPa],断面二次極モーメント$Ip$[mm$^{4}$]とし,ねじる軸の距離$l$[mm]にねじりモーメント$T$[Nmm]が掛かるとき,
+		ねじれ角$ \theta $[rad]は次の式\ref{theta}で求まる.
+		
+		\begin{eqnarray}
+		\theta=\frac{Tl}{1000GIp}
+		\label{theta}
+		\end{eqnarray}
+		
+		これを断面二次極モーメント$Ip$[mm$^{4}$]を求める式に変形すると,
+		
+		\begin{eqnarray}
+		Ip=\frac{Tl}{1000G \theta}
+		\label{Ip}
+		\end{eqnarray}
+		
+		となる.
+		試験するモータの最大トルク$Tmax$を12263Nmm,計測距離$l$を200mm,横弾性係数$G$を26GPa,ねじれ角$ \theta $を0.017453radとすると式\ref{Ip}となる.
+		
+		\begin{eqnarray}
+		Ip=\frac{12263 \times 200}{1000 \times 26 \times  0.017453}
+		\label{Ip}
+		\end{eqnarray}
+		
+		\begin{eqnarray}
+		Ip=5404.7[mm^{4}]
+		\label{Ip_anc}
+		\end{eqnarray}
+		
+		軸直径$d$[mm]としたとき,断面二次極モーメント$Ip$は,次の式\ref{dd}で求まる.
+		
+		\begin{eqnarray}
+		Ip=\frac{\pi}{32}d^{4}
+		\label{dd}
+		\end{eqnarray}
+		
+		これを軸直径$d$を求める式に変形すると,
+		
+		\begin{eqnarray}
+		d=\sqrt[4]{\frac{32Ip}{\pi}}
+		\label{d_Ip}
+		\end{eqnarray}
+		
+		となる.\\
+		式\ref{dd}中の$Ip$に式\ref{Ip_anc}の値を代入する.
+		$Ip$となる軸の直径$d$は
+		
+		\begin{eqnarray}
+		d=\sqrt[4]{\frac{32 \times 5404.7}{\pi}}
+		\label{d_Ip}
+		\end{eqnarray}
+		
+		\begin{eqnarray}
+		d=15.3[mm]
+		\label{d_anc}
+		\end{eqnarray}
+		
+		となる.\\
+		ねじりモーメント$T$[Nmm]と最大せん断応力$ \tau max$[N/mm$^{2}$],極断面係数$Zp$[mm$^{3}$]の関係は次の式\ref{Ta}となる.
+		
+		\begin{eqnarray}
+		T=\tau Zp
+		\label{Ta}
+		\end{eqnarray}
+		
+		式\ref{Ta}中の極断面係数$Zp$[mm$^{3}$]を求める式は
+		
+		\begin{eqnarray}
+		Zp=\frac{\pi}{16}d^{3}
+		\label{Zp}
+		\end{eqnarray}
+		
+		である.\\
+		式\ref{Ta}を最大せん断応力$ \tau max$を求める式に変形すると次の式\label{tau}となる.
+		
+		\begin{eqnarray}
+		\tau=\frac{T}{Zp}
+		\label{tau}
+		\end{eqnarray}
+		
+		$d$を15.3mmとし,最大せん断応力$ \tau max$を求める.
+		
+		\begin{eqnarray}
+		Zp=\frac{\pi}{16} \times 15.3^{3}
+		\label{Zp_q}
+		\end{eqnarray}
+		
+		\begin{eqnarray}
+		Zp=705.68[mm^{3}]
+		\label{Zp_anc}
+		\end{eqnarray}
+		
+		式\label{Zp_anc}の値を\label{tau_q}に代入する.ねじりモーメント$T$を12263Nmmとすると,
+		
+		\begin{eqnarray}
+		\tau=\frac{12263}{705.68}
+		\label{tau_q}
+		\end{eqnarray}
+		
+		\begin{eqnarray}
+		T=17.377[N/mm^{2}]
+		\label{Zp_anc}
+		\end{eqnarray}
+		となる.
+		この値はモータの最大トルク$Tmax$の値を下回っているため,この設計時の軸直径の計算値は妥当である.
+		よって,トルク計測モジュールの回転軸は15.3mmとする.\\
+		
+	\section{ブレーキモジュール}
+		\subsection{要求性能}
+		ブレーキモジュールではロボットを動かした時,
+		発生する摩擦や抵抗を再現するため回転を止めるためのブレーキ力が必要となる.
+		このブレーキ力によって軸に働くトルクをブレーキトルクという.
+		モータを試験するためにはモータの最大トルクを止めることのできるブレーキトルクが必要となる.
+		ブレーキに採用した機構は単ブロックブレーキである.
+		この機構はブレーキシューが1つで既存のブレーキの中でも構造が単純で部品数を少なく抑えられると判断したため採用した.
+		ブレーキのポンチ絵を図\ref{brkpt}に示す.
+		
+		
+		\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=12cm]{img/brkpt.png}
+		\caption{単ブロックブレーキポンチ絵}
+		\label{brkpt}
+		\end{figure}
+		
+		
+		\subsection{設計}
+		ブレーキホイールは鋳鉄,ブレーキシューは真鍮を使用する.
+		この二つの材料は切削加工がしやすい.
+		ブレーキでは摩擦熱が発生するためブレーキホイールには鋳鉄を使用している.
+		鋳鉄は車のブレーキホイールにも使用されており機械構造的にも信頼できる.
+		負荷のかけ方はおもりをブレーキシューを固定したアームに取り付け,
+		おもりの位置を調整し発生するモーメントを変える.
+		ブレーキの図\ref{brk}に示す.
+		
+		\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=12cm]{img/brk.png}
+		\caption{単ブロックブレーキ}
+		\label{brk}
+		\end{figure}
+		
+		
+		ブレーキにはモータの最大トルクを止められるブレーキトルクが必要である.
+		以下にブレーキトルクとおもりの位置を求める計算を示す.
+		また,式内に使用する記号の位置を図\ref{brek}に示す.
+		
+		\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=12cm]{img/brek.png}
+		\caption{単ブロックブレーキの図}
+		\label{brek}
+		\end{figure}
+		
+		図\ref{brk}の単ブロックブレーキにおいて,
+		ブレーキドラムが回転しているとき,
+		ブレーキてこに加えるおもりの重量は$F$[N],
+		シューをドラムに押しつける力を$R$[N]とすれば式\ref{R}が成り立つ.
+		
+		\begin{equation}
+		R=\frac{l}{a}F
+		\label{R}
+		\end{equation}
+		
+		摩擦係数を$\mu$とすると,
+		摩擦力$f$は式\ref{f}となる.
+		
+		\begin{equation}
+		f=\mu R
+		\label{f}
+		\end{equation}
+		
+		この摩擦力が,回転と逆向きに働き,回転を止める力となる.
+		この力によって軸に働くトルクをブレーキトルクとなる.
+		ドラム直径が$D$[mm]の時のブレーキトルク$T$[Nmm]は式\ref{T}となる.
+		この時のブレーキトルクはモータの最大トルクと同じと考える.
+		
+		\begin{equation}
+		T=f \frac{D}{2}=\mu R \frac{D}{2}
+		\label{T}
+		\end{equation}
+		
+		
+		式\ref{T}に式\ref{R}を代入すると,
+		
+		\begin{equation}
+		T=\frac{\mu l D}{2a}
+		\label{T'}
+		\end{equation}
+		となる.\\
+		この式\ref{T'}を$l$について整理すると,
+		
+		\begin{equation}
+		l=\frac{2aT}{\mu D}
+		\label{l}
+		\end{equation}
+		
+		となる.\\
+		式\ref{l}より錘の位置を決める.
+		
+		
+		
+	\section{フライホイールモジュール}
+		\subsection{要求性能}
+		ロボットの重量から発生する慣性モーメントを発生させることが出来る..
+		
+		\subsection{設計}
+		
+		以下に慣性モーメントの導出の計算を示す.
+		慣性モーメントを求めるために以下の3つの式を利用する.
+		また,各値の発生する位置の図を図\ref{kni}に示す.
+		
+		\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=10cm]{img/free.png}
+		\caption{自由体線図}
+		\label{kni}
+		\end{figure}
+		
+		並進運動の運動方程式を式\ref{x''}に示す.
+		\begin{equation}
+		F=M \ddot x
+		\label{x''}
+		\end{equation}
+		
+		回転の運動方程式を式\ref{K}に示す.
+		\begin{equation}
+		J \dot \omega=F \frac{D}{2}
+		\label{K}
+		\end{equation}
+		
+		速度と位置の関係を式\ref{V}に示す.
+		\begin{equation}
+		V=\ddot{x}
+		\label{V}
+		\end{equation}
+		
+		
+		速度と角速度の関係の式\ref{v}に示す.
+		\begin{equation}
+		V=\frac{D}{2}\omega
+		\label{v}
+		\end{equation}
+		
+		
+		式\ref{K}より$F$について整理する.
+		\begin{equation}
+		F=J \dot \omega \frac{2}{D}
+		\label{KK}
+		\end{equation}
+		
+		
+		式\ref{v}と式\ref{V}より
+		
+		\[\ddot x = \frac{D}{2} \dot \omega\] 
+		
+		
+		
+		この式を$\dot \omega$について整理する.
+		
+		\begin{equation}
+		\dot \omega =\dot x \frac{2}{D}
+		\label{VV}
+		\end{equation}
+		
+		
+		式\ref{VV}を式\ref{KK}に代入
+		\begin{equation}
+		F=J \ddot x \frac{4}{D^2}
+		\label{KV}
+		\end{equation}
+		
+		
+		式\ref{KV}と式\ref{x''}を組み合わせる.
+		\begin{equation}
+		M=J  \frac{D^2}{4}
+		\label{VK}
+		\end{equation}
+		
+		
+		式\ref{VK}より$J$について整理する.
+		\begin{equation}
+		J=M \frac{D^2}{4}
+		\label{VVK}
+		\end{equation}
+		
+		この式\label{VVK}にロボットの質量$M$[kg],タイヤ直径$D$[m]をあてはめ計算する.
+		
+		\begin{equation}
+		J=\frac{1}{8} M D^2
+		\label{mo}
+		\end{equation}
+		
+		今年のロボットはモータ1つに8kgの負荷がかかりタイヤは直径100mmであった.
+		そのため$M$=8kg,タイヤ直径$D$=0.1mとして計算すると発生する慣性モーメントは0.02kgm$^2$となった.
+		フライホイールプレートを設計するにあたってこの値を元に寸法を選定した.
+		寸法を選定する際には軸の高さが70mmということに注意し,
+		式\ref{mo}を,Excelで計算を行った.
+		この式に直径と幅の値を代入し,
+		慣性モーメントの0.02kgmに近い値をさがす.
+		
+		
+	\section{操作パネルモジュール}
+		\subsection{要求性能}
+		操作パネルは板に各スイッチを配置した.
+		必要と考えた物は電流,電圧計と主電源,非常停止スイッチ,ヒューズ,
+		オシロスコープ用の端子が接続可能な端子である.
+		操作パネル板にはレーザーカッターで加工ができる樹脂か木材を使用する.
+		操作パネルのポンチ絵を図\ref{pnrptk}に示す.
+		
+		
+		\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=14cm]{img/pnrptk.png}
+		\caption{操作パネルポンチ絵}
+		\label{pnrptk}
+		\end{figure}
+		
+		
+		\subsection{設計}
+		選定した各スイッチに適した寸法で穴を開け,
+		オシロスコープや電流計等既存の機械を参考にボタンの配置を決める.
+		
+		ボタンの配置を示した図を図\ref{pnr}に示す.
+		
+		\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=12cm]{img/pnr.png}
+		\caption{操作パネル}
+		\label{pnr}
+		\end{figure}
+		
+\chapter{取り扱いについて}
+	モータ試験機を使用するには第二章の式\ref{VK},式\ref{T'}を用いて
+	ブレーキアームのおもりを固定する位置とフライホイールのおもりの個数の決定する.
+	その後,モータに任意の電流,電圧をかけトルク計から出力された値を読み取る.
+	操作パネルからはオシロスコープに接続することも可能である.
+	またモータドライバは試験機上の指定の場所に設置する.
+	試験機とモータドライバなどの周辺機器を接続したブロック図を図\ref{trst}に示す.
+	
+	\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=12cm]{img/trst.png}
+	\caption{周辺機器との接続関係ブロック図}
+	\label{trst}
+	\end{figure}
+	
+	
+\chapter{おわりに}
+	\section{まとめ}
+	各モジュールは構造が単純で部品点数が少なくなるよう設計した.
+	モータマウントは製作するロボットによって使うモータが違い,
+	固定するネジ穴の位置も違うため様々なモータが使用できるユニバーサルモータマウントを設計した.
+	トルク計測モジュールは二点間ロータリーエンコーダ,
+	ブレーキモジュールの機構は単ブロックブレーキ,
+	フライホイールモジュールは半円状の錘を使用することに決定した.
+	これらのモジュールを有する,モータ試験機の設計及び組み立て図の作成まで行った.
+	
+	
+	\section{今後の課題}
+	これらの組立図,部品図を元に実際に製作し動作を確認する必要がある.
+	
+	\begin{thebibliography}{9}
+	\bibitem{key1} 初めてのロボット創造設計　米田完　坪内考司　大隅久　講談社　2001年9月20日　「慣性モーメント」p152
+
+	\bibitem{key2} 新機械設計　塚田忠男・舟橋宏明・野口昭治　実教出版株式会社　2012年(1)　p.85-86
+
+	\bibitem{key3} 計測工学入門　中村邦雄　森北出版株式会社　1994年4月8日　「プロニーブレーキ」
+	\end{thebibliography}
+	
+	
+\chapter*{謝辞}
+\addcontentsline{toc}{chapter}{謝辞}
+	スケジュールの立て方からロボットの設計,論文の書き方までロボコンを一から教えていただいた伊藤恒平教授,林道大教授に深く感謝します.
+	ロボコンで得た経験をこれからも活かしていきたいと思います。
+
+\end{document}
